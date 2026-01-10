@@ -2,36 +2,45 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from products.models import Product
 from decimal import Decimal
+
 # Create your models here.
 
 User = get_user_model()
+
+
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Cart({self.user})"
+
     # helper method to get subtotal
     @property
     def subtotal(self):
-        subtotal = 0
+        subtotal = Decimal("0.00")
         for item in self.items.all():
             subtotal += item.product.price * item.quantity
         return subtotal
-    
-    @property    
+
+    @property
     def tax_amount(self):
-        tax = 0
+        tax = Decimal("0.00")
         for item in self.items.all():
-            tax += item.product.price * item.quantity * item.product.tax_percent / 100
+            tax += (
+                item.product.price
+                * item.quantity
+                * Decimal(item.product.tax_percent)
+                / Decimal("100")
+            )
         return tax
-    
+
     @property
     def grand_total(self):
         grand_total = self.subtotal + self.tax_amount
         return grand_total.quantize(Decimal("0.00"))
-    
-    
+
+
 class CartItem(models.Model):
     # one cart can have multiple cartitems
     # one cart have multiple products
@@ -41,7 +50,7 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"
-    
+
     @property
     def total_price(self):
         total_price = self.product.price * self.quantity

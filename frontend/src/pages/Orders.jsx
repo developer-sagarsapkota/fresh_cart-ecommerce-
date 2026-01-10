@@ -21,12 +21,12 @@ const Orders = () => {
   setSelectedOrder(orderId);
   setIsModalOpen(true);
   };
-  
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedOrder(null);
   };
-  
+
 
   const { api } = useAxios();
   const { auth } = useAuth();
@@ -156,7 +156,7 @@ const Orders = () => {
                         <button className="btn btn-primary roidunded-pill px-3 py-2 d-flex align-items-center gap-2 shadow-sm" onClick={() => handleOpenModal(order?.id)}>
                           <Eye size={16} /> Details
                         </button>
-                       
+
                       </div>
                     </div>
                   </div>
@@ -171,10 +171,10 @@ const Orders = () => {
           </div>
         )}
       </div>
-      <OrderDetail 
-        orderId={selectedOrder} 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
+      <OrderDetail
+        orderId={selectedOrder}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
       />
     </div>
   );
