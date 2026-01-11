@@ -1,3 +1,4 @@
+# CI/CD workflow to deploy application to Linode server on push to main branch
 name: Deploy to Linode
 
 on:
