@@ -1,3 +1,4 @@
+# List of all services (containers) to be run
 services:
   db:
     image: postgres:16-alpine
