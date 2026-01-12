@@ -19,4 +19,8 @@ jobs:
           script: |
             cd /opt/freshcart
             git pull origin main
+            docker compose down
             docker compose up --build -d
+
+      - name: Verify deployment
+        run: curl -f http://${{ secrets.LINODE_HOST }} || exit 1
